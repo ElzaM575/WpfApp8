@@ -23,7 +23,7 @@ namespace WpfApp8
     /// </summary>
     public partial class AnimalsPage : Page
     {
-    
+
         public AnimalsPage()
         {
             InitializeComponent();
@@ -77,7 +77,7 @@ namespace WpfApp8
             }
         }
 
-        
+
 
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
@@ -117,6 +117,18 @@ namespace WpfApp8
             }
         }
 
-      
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            var editWindow = new AnimalEditWindow();
+            if (editWindow.ShowDialog() == true)
+            {
+                using (var db = new circusEntities())
+                {
+                    db.Animal.Add(editWindow.Animal);
+                    db.SaveChanges();
+                }
+                LoadAnimals();
+            }
+        }
     }
 }
