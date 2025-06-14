@@ -21,6 +21,15 @@ namespace WpfApp8
     public partial class ArtistEditWindow : Window
     {
         public Artist Artist { get; private set; }
+        public string ArtistRank
+        {
+            get
+            {
+                int count = Artist.success_count ?? 0;
+                return count <= 10 ? "Начинающий" :
+                       count <= 30 ? "Продвигающийся" : "VIP";
+            }
+        }
         public ArtistEditWindow()
         {
             InitializeComponent();
@@ -34,7 +43,7 @@ namespace WpfApp8
                 artist_id = artist.artist_id,
                 name = artist.name,
                 success_count = artist.success_count,
-                rank = artist.rank
+               
             };
         }
 

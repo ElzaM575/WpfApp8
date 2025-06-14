@@ -32,10 +32,7 @@ namespace WpfApp8
             {
                 ArtistList.ItemsSource = db.Artist.ToList().Select(a => new
                 {
-                    a.artist_id,
-                    a.name,
-                    a.success_count,
-                    Rank = GetRank(a.success_count ?? 0),
+                    Artist = a,
                     DisplayInfo = $"{a.name} - {GetRank(a.success_count ?? 0)} {(a.success_count > 30 ? "(гримерка)" : "")}"
                 }).ToList();
             }
@@ -57,13 +54,9 @@ namespace WpfApp8
             if (ArtistList.SelectedItem != null)
             {
                 dynamic selected = ArtistList.SelectedItem;
-                var editWindow = new ArtistEditWindow(new Artist
-                {
-                    artist_id = selected.artist_id,
-                    name = selected.name,
-                    success_count = selected.success_count
-                });
+                Artist selectedArtist = selected.Artist;
 
+                var editWindow = new ArtistEditWindow(selectedArtist);
                 if (editWindow.ShowDialog() == true)
                 {
                     using (var db = new circusEntities())
@@ -84,27 +77,18 @@ namespace WpfApp8
         
 
        
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            using (var db = new circusEntities())
-            {
-                ArtistList.ItemsSource = db.Artist.ToList().Select(a => new
-                {
-                    a.artist_id,
-                    a.name,
-                    a.success_count,
-                    Rank = GetRank(a.success_count ?? 0),
-                    DisplayInfo = $"{a.name} - {GetRank(a.success_count ?? 0)} {(a.success_count > 30 ? "(гримерка)" : "")}"
-                }).ToList();
-            }
-        }
+       
+        
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            if (ArtistList.SelectedItem is Artist selectedArtist &&
-         MessageBox.Show("Удалить этого артиста?", "Подтверждение",
-         MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            if (ArtistList.SelectedItem != null &&
+                MessageBox.Show("Удалить этого артиста?", "Подтверждение",
+                MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
+                dynamic selected = ArtistList.SelectedItem;
+                Artist selectedArtist = selected.Artist;
+
                 using (var db = new circusEntities())
                 {
                     var artist = db.Artist.Find(selectedArtist.artist_id);
@@ -114,6 +98,20 @@ namespace WpfApp8
                         db.SaveChanges();
                         LoadArtists();
                     }
+                }
+            }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            var editWindow = new ArtistEditWindow();
+            if (editWindow.ShowDialog() == true)
+            {
+                using (var db = new circusEntities())
+                {
+                    db.Artist.Add(editWindow.Artist);
+                    db.SaveChanges();
+                    LoadArtists();
                 }
             }
         }

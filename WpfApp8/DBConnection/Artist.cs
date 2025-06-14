@@ -28,5 +28,6 @@ namespace WpfApp8.DBConnection
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TrainingParticipant> TrainingParticipant { get; set; }
+        public string DisplayInfo { get; internal set; }
     }
 }

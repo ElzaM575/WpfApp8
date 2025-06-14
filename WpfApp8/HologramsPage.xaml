@@ -7,10 +7,36 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="HologramsPage">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
-    <StackPanel Margin="10">
-        <TextBlock Text="Кабинеты голограмм" FontSize="16" FontWeight="Bold"/>
-        <ListBox x:Name="HoloList" Height="200"/>
-        <Button Content="Загрузить" Click="Load_Click" Margin="0,10,0,0"/>
-    </StackPanel>
+        <!-- Список кабинетов -->
+        <StackPanel Grid.Row="0">
+            <TextBlock Text="Кабинеты голограмм" FontSize="16" FontWeight="Bold"/>
+            <ListBox x:Name="HoloList" Height="200">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding RoomName }" Width="150"/>
+                            <TextBlock Text="{Binding Responsibles}" Margin="10,0,0,0"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <Button Content="Загрузить" Click="Load_Click" Margin="0,10,0,0"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Добавить кабинет" Name="Add" Margin="5" Padding="10,5" Click="Add_Click"/>
+            <Button Content="Редактировать" Name="Edit" Margin="5" Padding="10,5"
+                   IsEnabled="{Binding ElementName=HoloList, Path=SelectedItem}" Click="Edit_Click"/>
+            <Button Content="Удалить" Name="Delete" Margin="5" Padding="10,5"
+                   IsEnabled="{Binding ElementName=HoloList, Path=SelectedItem}" Click="Delete_Click"/>
+            <Button Content="Назначить ответственного" Name="AssignRespo" Margin="5" Padding="10,5"
+                   IsEnabled="{Binding ElementName=HoloList, Path=SelectedItem}" Click="AssignRespo_Click"/>
+        </StackPanel>
+    </Grid>
+    
 </Page>

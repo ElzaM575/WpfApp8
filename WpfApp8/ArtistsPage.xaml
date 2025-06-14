@@ -22,7 +22,7 @@
 
         <!-- Кнопки управления -->
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="10">
-            <Button Content="Добавить"  Margin="5" Padding="10,5" Click="Button_Click"/>
+            <Button Content="Добавить"  Margin="5" Padding="10,5" Click="Button_Click_2" />
             <Button Content="Редактировать" Click="Edit_Click" Margin="5" Padding="10,5"
                IsEnabled="{Binding ElementName=ArtistList, Path=SelectedItem}"/>
             <Button Content="Удалить"  Margin="5" Padding="10,5"
