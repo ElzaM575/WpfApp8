@@ -9,7 +9,7 @@
       Title="AnimalsPage">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="100"/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
@@ -35,6 +35,41 @@
                  IsEnabled="{Binding ElementName=AnimalList, Path=SelectedItem}"  Height="50"/>
             <Button Content="Дрессировщики" Click="Button_Click_5" Margin="5"  Height="50"/>
         </StackPanel>
+        <StackPanel Background="#FFF5F5F5"  Grid.Row="2" HorizontalAlignment="Left" Margin="10" Height="150" Width="250" VerticalAlignment="Top">
+            <TextBlock Text="Карточка животного" FontWeight="Bold" Margin="0,0,0,5"/>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Имя:" Grid.Row="0" Grid.Column="0" Margin="0,0,5,5"/>
+                <TextBlock Text="{Binding ElementName=AnimalList, Path=SelectedItem.name}" 
+                      Grid.Row="0" Grid.Column="1" Margin="0,0,0,5"/>
+                <TextBlock Text="Возраст:" Grid.Row="1" Grid.Column="0" Margin="0,0,5,5"/>
+                <TextBlock Text="{Binding ElementName=AnimalList, Path=SelectedItem.age}" 
+                      Grid.Row="1" Grid.Column="1" Margin="0,0,0,5"/>
+
+                <TextBlock Text="Пол:" Grid.Row="2" Grid.Column="0" Margin="0,0,5,5"/>
+                <TextBlock Text="{Binding ElementName=AnimalList, Path=SelectedItem.gender}" 
+                      Grid.Row="2" Grid.Column="1" Margin="0,0,0,5"/>
+
+                <TextBlock Text="Вес:" Grid.Row="3" Grid.Column="0" Margin="0,0,5,5"/>
+                <TextBlock Text="{Binding ElementName=AnimalList, Path=SelectedItem.weight}" 
+                      Grid.Row="3" Grid.Column="1" Margin="0,0,0,5"/>
+
+                <TextBlock Text="Дрессировщик:" Grid.Row="4" Grid.Column="0" Margin="0,0,5,5"/>
+                <TextBlock Text="{Binding ElementName=AnimalList, Path=SelectedItem.Trainer.name}" 
+                      Grid.Row="4" Grid.Column="1" Margin="0,0,0,5"/>
+            </Grid>
+            </StackPanel>
     </Grid>
-   
 </Page>

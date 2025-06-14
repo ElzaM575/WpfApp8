@@ -82,10 +82,28 @@ namespace WpfApp8
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            var listBox = (ListBox)sender;
-            if (listBox.SelectedItem != null)
+            if (AnimalList.SelectedItem is Animal selectedAnimal)
             {
-                listBox.ScrollIntoView(listBox.SelectedItem);
+                var editWindow = new AnimalEditWindow(selectedAnimal);
+                if (editWindow.ShowDialog() == true)
+                {
+                    using (var db = new circusEntities())
+                    {
+                        var animal = db.Animal.Find(editWindow.Animal.animal_id);
+                        if (animal != null)
+                        {
+                            animal.name = editWindow.Animal.name;
+                            animal.age = editWindow.Animal.age;
+                            animal.gender = editWindow.Animal.gender;
+                            animal.weight = editWindow.Animal.weight;
+                            animal.food = editWindow.Animal.food;
+                            animal.care = editWindow.Animal.care;
+                            animal.trainer_id = editWindow.Animal.trainer_id;
+                            db.SaveChanges();
+                        }
+                    }
+                    LoadAnimals();
+                }
             }
         }
 
