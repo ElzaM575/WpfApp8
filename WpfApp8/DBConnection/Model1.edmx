@@ -1,0 +1,620 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище circusModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Animal">
+          <Key>
+            <PropertyRef Name="animal_id" />
+          </Key>
+          <Property Name="animal_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="age" Type="int" />
+          <Property Name="gender" Type="nvarchar" MaxLength="10" />
+          <Property Name="weight" Type="float" />
+          <Property Name="food" Type="nvarchar" MaxLength="255" />
+          <Property Name="care" Type="nvarchar(max)" />
+          <Property Name="trainer_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Artist">
+          <Key>
+            <PropertyRef Name="artist_id" />
+          </Key>
+          <Property Name="artist_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="rank" Type="nvarchar" MaxLength="20" />
+          <Property Name="success_count" Type="int" />
+          <Property Name="vip_room" Type="bit" />
+        </EntityType>
+        <EntityType Name="Cage">
+          <Key>
+            <PropertyRef Name="cage_id" />
+          </Key>
+          <Property Name="cage_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="animal_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="event_id" />
+          </Key>
+          <Property Name="event_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="150" />
+          <Property Name="date" Type="date" />
+          <Property Name="type" Type="nvarchar" MaxLength="20" />
+          <Property Name="prepayment" Type="decimal" Precision="10" Scale="2" />
+          <Property Name="company" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="HoloRoom">
+          <Key>
+            <PropertyRef Name="room_id" />
+          </Key>
+          <Property Name="room_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="report_id" />
+          </Key>
+          <Property Name="report_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="month" Type="nvarchar" MaxLength="20" />
+          <Property Name="type" Type="nvarchar" MaxLength="20" />
+          <Property Name="profit" Type="decimal" Precision="12" Scale="2" />
+          <Property Name="expenses" Type="decimal" Precision="12" Scale="2" />
+          <Property Name="event_id" Type="int" />
+        </EntityType>
+        <EntityType Name="Responsible">
+          <Key>
+            <PropertyRef Name="responsible_id" />
+          </Key>
+          <Property Name="responsible_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" />
+          <Property Name="room_id" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Trainer">
+          <Key>
+            <PropertyRef Name="trainer_id" />
+          </Key>
+          <Property Name="trainer_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Training">
+          <Key>
+            <PropertyRef Name="training_id" />
+          </Key>
+          <Property Name="training_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="date" Type="date" />
+          <Property Name="zone" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="TrainingParticipant">
+          <Key>
+            <PropertyRef Name="participant_id" />
+          </Key>
+          <Property Name="participant_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="training_id" Type="int" />
+          <Property Name="artist_id" Type="int" />
+          <Property Name="animal_id" Type="int" />
+        </EntityType>
+        <Association Name="FK__Animal__trainer___5EBF139D">
+          <End Role="Trainer" Type="Self.Trainer" Multiplicity="0..1" />
+          <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trainer">
+              <PropertyRef Name="trainer_id" />
+            </Principal>
+            <Dependent Role="Animal">
+              <PropertyRef Name="trainer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cage__animal_id__628FA481">
+          <End Role="Animal" Type="Self.Animal" Multiplicity="0..1" />
+          <End Role="Cage" Type="Self.Cage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animal">
+              <PropertyRef Name="animal_id" />
+            </Principal>
+            <Dependent Role="Cage">
+              <PropertyRef Name="animal_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Report__event_id__6B24EA82">
+          <End Role="Event" Type="Self.Event" Multiplicity="0..1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="event_id" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="event_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Responsib__room___778AC167">
+          <End Role="HoloRoom" Type="Self.HoloRoom" Multiplicity="0..1" />
+          <End Role="Responsible" Type="Self.Responsible" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HoloRoom">
+              <PropertyRef Name="room_id" />
+            </Principal>
+            <Dependent Role="Responsible">
+              <PropertyRef Name="room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainingP__anima__71D1E811">
+          <End Role="Animal" Type="Self.Animal" Multiplicity="0..1" />
+          <End Role="TrainingParticipant" Type="Self.TrainingParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animal">
+              <PropertyRef Name="animal_id" />
+            </Principal>
+            <Dependent Role="TrainingParticipant">
+              <PropertyRef Name="animal_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainingP__artis__70DDC3D8">
+          <End Role="Artist" Type="Self.Artist" Multiplicity="0..1" />
+          <End Role="TrainingParticipant" Type="Self.TrainingParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artist">
+              <PropertyRef Name="artist_id" />
+            </Principal>
+            <Dependent Role="TrainingParticipant">
+              <PropertyRef Name="artist_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainingP__train__6FE99F9F">
+          <End Role="Training" Type="Self.Training" Multiplicity="0..1" />
+          <End Role="TrainingParticipant" Type="Self.TrainingParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Training">
+              <PropertyRef Name="training_id" />
+            </Principal>
+            <Dependent Role="TrainingParticipant">
+              <PropertyRef Name="training_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище circusModelContainer">
+          <EntitySet Name="Animal" EntityType="Self.Animal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Artist" EntityType="Self.Artist" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Cage" EntityType="Self.Cage" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Event" EntityType="Self.Event" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HoloRoom" EntityType="Self.HoloRoom" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Report" EntityType="Self.Report" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Responsible" EntityType="Self.Responsible" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Trainer" EntityType="Self.Trainer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Training" EntityType="Self.Training" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TrainingParticipant" EntityType="Self.TrainingParticipant" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Animal__trainer___5EBF139D" Association="Self.FK__Animal__trainer___5EBF139D">
+            <End Role="Trainer" EntitySet="Trainer" />
+            <End Role="Animal" EntitySet="Animal" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cage__animal_id__628FA481" Association="Self.FK__Cage__animal_id__628FA481">
+            <End Role="Animal" EntitySet="Animal" />
+            <End Role="Cage" EntitySet="Cage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Report__event_id__6B24EA82" Association="Self.FK__Report__event_id__6B24EA82">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Responsib__room___778AC167" Association="Self.FK__Responsib__room___778AC167">
+            <End Role="HoloRoom" EntitySet="HoloRoom" />
+            <End Role="Responsible" EntitySet="Responsible" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainingP__anima__71D1E811" Association="Self.FK__TrainingP__anima__71D1E811">
+            <End Role="Animal" EntitySet="Animal" />
+            <End Role="TrainingParticipant" EntitySet="TrainingParticipant" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainingP__artis__70DDC3D8" Association="Self.FK__TrainingP__artis__70DDC3D8">
+            <End Role="Artist" EntitySet="Artist" />
+            <End Role="TrainingParticipant" EntitySet="TrainingParticipant" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainingP__train__6FE99F9F" Association="Self.FK__TrainingP__train__6FE99F9F">
+            <End Role="Training" EntitySet="Training" />
+            <End Role="TrainingParticipant" EntitySet="TrainingParticipant" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="circusModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Animal">
+          <Key>
+            <PropertyRef Name="animal_id" />
+          </Key>
+          <Property Name="animal_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="age" Type="Int32" />
+          <Property Name="gender" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="weight" Type="Double" />
+          <Property Name="food" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="care" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="trainer_id" Type="Int32" />
+          <NavigationProperty Name="Trainer" Relationship="Self.FK__Animal__trainer___5EBF139D" FromRole="Animal" ToRole="Trainer" />
+          <NavigationProperty Name="Cage" Relationship="Self.FK__Cage__animal_id__628FA481" FromRole="Animal" ToRole="Cage" />
+          <NavigationProperty Name="TrainingParticipant" Relationship="Self.FK__TrainingP__anima__71D1E811" FromRole="Animal" ToRole="TrainingParticipant" />
+        </EntityType>
+        <EntityType Name="Artist">
+          <Key>
+            <PropertyRef Name="artist_id" />
+          </Key>
+          <Property Name="artist_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="rank" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="success_count" Type="Int32" />
+          <Property Name="vip_room" Type="Boolean" />
+          <NavigationProperty Name="TrainingParticipant" Relationship="Self.FK__TrainingP__artis__70DDC3D8" FromRole="Artist" ToRole="TrainingParticipant" />
+        </EntityType>
+        <EntityType Name="Cage">
+          <Key>
+            <PropertyRef Name="cage_id" />
+          </Key>
+          <Property Name="cage_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="animal_id" Type="Int32" />
+          <NavigationProperty Name="Animal" Relationship="Self.FK__Cage__animal_id__628FA481" FromRole="Cage" ToRole="Animal" />
+        </EntityType>
+        <EntityType Name="Event">
+          <Key>
+            <PropertyRef Name="event_id" />
+          </Key>
+          <Property Name="event_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="prepayment" Type="Decimal" Precision="10" Scale="2" />
+          <Property Name="company" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Report" Relationship="Self.FK__Report__event_id__6B24EA82" FromRole="Event" ToRole="Report" />
+        </EntityType>
+        <EntityType Name="HoloRoom">
+          <Key>
+            <PropertyRef Name="room_id" />
+          </Key>
+          <Property Name="room_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Responsible" Relationship="Self.FK__Responsib__room___778AC167" FromRole="HoloRoom" ToRole="Responsible" />
+        </EntityType>
+        <EntityType Name="Report">
+          <Key>
+            <PropertyRef Name="report_id" />
+          </Key>
+          <Property Name="report_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="month" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="type" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="profit" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="expenses" Type="Decimal" Precision="12" Scale="2" />
+          <Property Name="event_id" Type="Int32" />
+          <NavigationProperty Name="Event" Relationship="Self.FK__Report__event_id__6B24EA82" FromRole="Report" ToRole="Event" />
+        </EntityType>
+        <EntityType Name="Responsible">
+          <Key>
+            <PropertyRef Name="responsible_id" />
+          </Key>
+          <Property Name="responsible_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="room_id" Type="Int32" />
+          <NavigationProperty Name="HoloRoom" Relationship="Self.FK__Responsib__room___778AC167" FromRole="Responsible" ToRole="HoloRoom" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Trainer">
+          <Key>
+            <PropertyRef Name="trainer_id" />
+          </Key>
+          <Property Name="trainer_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Animal" Relationship="Self.FK__Animal__trainer___5EBF139D" FromRole="Trainer" ToRole="Animal" />
+        </EntityType>
+        <EntityType Name="Training">
+          <Key>
+            <PropertyRef Name="training_id" />
+          </Key>
+          <Property Name="training_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="DateTime" Precision="0" />
+          <Property Name="zone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="TrainingParticipant" Relationship="Self.FK__TrainingP__train__6FE99F9F" FromRole="Training" ToRole="TrainingParticipant" />
+        </EntityType>
+        <EntityType Name="TrainingParticipant">
+          <Key>
+            <PropertyRef Name="participant_id" />
+          </Key>
+          <Property Name="participant_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="training_id" Type="Int32" />
+          <Property Name="artist_id" Type="Int32" />
+          <Property Name="animal_id" Type="Int32" />
+          <NavigationProperty Name="Animal" Relationship="Self.FK__TrainingP__anima__71D1E811" FromRole="TrainingParticipant" ToRole="Animal" />
+          <NavigationProperty Name="Artist" Relationship="Self.FK__TrainingP__artis__70DDC3D8" FromRole="TrainingParticipant" ToRole="Artist" />
+          <NavigationProperty Name="Training" Relationship="Self.FK__TrainingP__train__6FE99F9F" FromRole="TrainingParticipant" ToRole="Training" />
+        </EntityType>
+        <Association Name="FK__Animal__trainer___5EBF139D">
+          <End Role="Trainer" Type="Self.Trainer" Multiplicity="0..1" />
+          <End Role="Animal" Type="Self.Animal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Trainer">
+              <PropertyRef Name="trainer_id" />
+            </Principal>
+            <Dependent Role="Animal">
+              <PropertyRef Name="trainer_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Cage__animal_id__628FA481">
+          <End Role="Animal" Type="Self.Animal" Multiplicity="0..1" />
+          <End Role="Cage" Type="Self.Cage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animal">
+              <PropertyRef Name="animal_id" />
+            </Principal>
+            <Dependent Role="Cage">
+              <PropertyRef Name="animal_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainingP__anima__71D1E811">
+          <End Role="Animal" Type="Self.Animal" Multiplicity="0..1" />
+          <End Role="TrainingParticipant" Type="Self.TrainingParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Animal">
+              <PropertyRef Name="animal_id" />
+            </Principal>
+            <Dependent Role="TrainingParticipant">
+              <PropertyRef Name="animal_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainingP__artis__70DDC3D8">
+          <End Role="Artist" Type="Self.Artist" Multiplicity="0..1" />
+          <End Role="TrainingParticipant" Type="Self.TrainingParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Artist">
+              <PropertyRef Name="artist_id" />
+            </Principal>
+            <Dependent Role="TrainingParticipant">
+              <PropertyRef Name="artist_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Report__event_id__6B24EA82">
+          <End Role="Event" Type="Self.Event" Multiplicity="0..1" />
+          <End Role="Report" Type="Self.Report" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Event">
+              <PropertyRef Name="event_id" />
+            </Principal>
+            <Dependent Role="Report">
+              <PropertyRef Name="event_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Responsib__room___778AC167">
+          <End Role="HoloRoom" Type="Self.HoloRoom" Multiplicity="0..1" />
+          <End Role="Responsible" Type="Self.Responsible" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HoloRoom">
+              <PropertyRef Name="room_id" />
+            </Principal>
+            <Dependent Role="Responsible">
+              <PropertyRef Name="room_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__TrainingP__train__6FE99F9F">
+          <End Role="Training" Type="Self.Training" Multiplicity="0..1" />
+          <End Role="TrainingParticipant" Type="Self.TrainingParticipant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Training">
+              <PropertyRef Name="training_id" />
+            </Principal>
+            <Dependent Role="TrainingParticipant">
+              <PropertyRef Name="training_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="circusEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Animal" EntityType="Self.Animal" />
+          <EntitySet Name="Artist" EntityType="Self.Artist" />
+          <EntitySet Name="Cage" EntityType="Self.Cage" />
+          <EntitySet Name="Event" EntityType="Self.Event" />
+          <EntitySet Name="HoloRoom" EntityType="Self.HoloRoom" />
+          <EntitySet Name="Report" EntityType="Self.Report" />
+          <EntitySet Name="Responsible" EntityType="Self.Responsible" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Trainer" EntityType="Self.Trainer" />
+          <EntitySet Name="Training" EntityType="Self.Training" />
+          <EntitySet Name="TrainingParticipant" EntityType="Self.TrainingParticipant" />
+          <AssociationSet Name="FK__Animal__trainer___5EBF139D" Association="Self.FK__Animal__trainer___5EBF139D">
+            <End Role="Trainer" EntitySet="Trainer" />
+            <End Role="Animal" EntitySet="Animal" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Cage__animal_id__628FA481" Association="Self.FK__Cage__animal_id__628FA481">
+            <End Role="Animal" EntitySet="Animal" />
+            <End Role="Cage" EntitySet="Cage" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainingP__anima__71D1E811" Association="Self.FK__TrainingP__anima__71D1E811">
+            <End Role="Animal" EntitySet="Animal" />
+            <End Role="TrainingParticipant" EntitySet="TrainingParticipant" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainingP__artis__70DDC3D8" Association="Self.FK__TrainingP__artis__70DDC3D8">
+            <End Role="Artist" EntitySet="Artist" />
+            <End Role="TrainingParticipant" EntitySet="TrainingParticipant" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Report__event_id__6B24EA82" Association="Self.FK__Report__event_id__6B24EA82">
+            <End Role="Event" EntitySet="Event" />
+            <End Role="Report" EntitySet="Report" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Responsib__room___778AC167" Association="Self.FK__Responsib__room___778AC167">
+            <End Role="HoloRoom" EntitySet="HoloRoom" />
+            <End Role="Responsible" EntitySet="Responsible" />
+          </AssociationSet>
+          <AssociationSet Name="FK__TrainingP__train__6FE99F9F" Association="Self.FK__TrainingP__train__6FE99F9F">
+            <End Role="Training" EntitySet="Training" />
+            <End Role="TrainingParticipant" EntitySet="TrainingParticipant" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище circusModelContainer" CdmEntityContainer="circusEntities">
+          <EntitySetMapping Name="Animal">
+            <EntityTypeMapping TypeName="circusModel.Animal">
+              <MappingFragment StoreEntitySet="Animal">
+                <ScalarProperty Name="animal_id" ColumnName="animal_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="weight" ColumnName="weight" />
+                <ScalarProperty Name="food" ColumnName="food" />
+                <ScalarProperty Name="care" ColumnName="care" />
+                <ScalarProperty Name="trainer_id" ColumnName="trainer_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Artist">
+            <EntityTypeMapping TypeName="circusModel.Artist">
+              <MappingFragment StoreEntitySet="Artist">
+                <ScalarProperty Name="artist_id" ColumnName="artist_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="rank" ColumnName="rank" />
+                <ScalarProperty Name="success_count" ColumnName="success_count" />
+                <ScalarProperty Name="vip_room" ColumnName="vip_room" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Cage">
+            <EntityTypeMapping TypeName="circusModel.Cage">
+              <MappingFragment StoreEntitySet="Cage">
+                <ScalarProperty Name="cage_id" ColumnName="cage_id" />
+                <ScalarProperty Name="animal_id" ColumnName="animal_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Event">
+            <EntityTypeMapping TypeName="circusModel.Event">
+              <MappingFragment StoreEntitySet="Event">
+                <ScalarProperty Name="event_id" ColumnName="event_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="prepayment" ColumnName="prepayment" />
+                <ScalarProperty Name="company" ColumnName="company" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HoloRoom">
+            <EntityTypeMapping TypeName="circusModel.HoloRoom">
+              <MappingFragment StoreEntitySet="HoloRoom">
+                <ScalarProperty Name="room_id" ColumnName="room_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Report">
+            <EntityTypeMapping TypeName="circusModel.Report">
+              <MappingFragment StoreEntitySet="Report">
+                <ScalarProperty Name="report_id" ColumnName="report_id" />
+                <ScalarProperty Name="month" ColumnName="month" />
+                <ScalarProperty Name="type" ColumnName="type" />
+                <ScalarProperty Name="profit" ColumnName="profit" />
+                <ScalarProperty Name="expenses" ColumnName="expenses" />
+                <ScalarProperty Name="event_id" ColumnName="event_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Responsible">
+            <EntityTypeMapping TypeName="circusModel.Responsible">
+              <MappingFragment StoreEntitySet="Responsible">
+                <ScalarProperty Name="responsible_id" ColumnName="responsible_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="room_id" ColumnName="room_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="circusModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Trainer">
+            <EntityTypeMapping TypeName="circusModel.Trainer">
+              <MappingFragment StoreEntitySet="Trainer">
+                <ScalarProperty Name="trainer_id" ColumnName="trainer_id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Training">
+            <EntityTypeMapping TypeName="circusModel.Training">
+              <MappingFragment StoreEntitySet="Training">
+                <ScalarProperty Name="training_id" ColumnName="training_id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="zone" ColumnName="zone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TrainingParticipant">
+            <EntityTypeMapping TypeName="circusModel.TrainingParticipant">
+              <MappingFragment StoreEntitySet="TrainingParticipant">
+                <ScalarProperty Name="participant_id" ColumnName="participant_id" />
+                <ScalarProperty Name="training_id" ColumnName="training_id" />
+                <ScalarProperty Name="artist_id" ColumnName="artist_id" />
+                <ScalarProperty Name="animal_id" ColumnName="animal_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
